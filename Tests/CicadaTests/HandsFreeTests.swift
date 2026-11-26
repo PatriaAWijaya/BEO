@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct HandsFreeTests {
     private static let block = 170.0 / 16000

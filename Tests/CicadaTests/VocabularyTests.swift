@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @MainActor @Suite struct VocabularyTests {
     @Test func importLinesWithHeardForms() {

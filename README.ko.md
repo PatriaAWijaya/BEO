@@ -2,7 +2,7 @@
   <img src="docs/icon.png" width="128" height="128" alt="Cicada 아이콘">
 </p>
 
-<h1 align="center">Cicada · 知了</h1>
+<h1 align="center">BEO</h1>
 
 <p align="center">
   어떤 회의도, 어떤 방송도 언어 장벽 없이.<br>
@@ -186,8 +186,8 @@ defaults delete com.wquguru.cicada
 Mac 버전은 Xcode Command Line Tools(`xcode-select --install`)만 설치하면 되며 서드파티 의존성이 없습니다. macOS 27에서 `SwiftUIMacros` 누락 오류가 나면 전체 Xcode를 설치하고 `sudo xcode-select -s /Applications/Xcode.app`을 실행하세요. 다른 플랫폼 빌드는 [windows/README.md](windows/README.md), [linux/README.md](linux/README.md), [android/README.md](android/README.md)를 참고하세요.
 
 ```bash
-scripts/build.sh            # 개발 버전 빌드 → build/Cicada.app (이름은 Cicada Dev, 정식 버전과 동시 실행 가능)
-open build/Cicada.app
+scripts/build.sh            # 개발 버전 빌드 → build/BEO.app (이름은 BEO Dev, 정식 버전과 동시 실행 가능)
+open build/BEO.app
 scripts/package.sh          # 정식 버전 DMG, zip 및 SHA-256 체크섬 패키징
 ```
 

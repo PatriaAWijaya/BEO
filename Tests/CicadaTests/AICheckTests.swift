@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 struct AICheckTests {
     @Test func eachFailureStopsAtItsStep() {
@@ -97,7 +97,7 @@ struct AICheckTests {
         c.fail(.reach, .unreachable)
         c.localNetworkDenied = true
         #expect(c.needsLocalNetwork)
-        #expect(c.message(service: "s", host: "192.168.1.20", model: "m") == "知了没有本地网络权限，连不上 192.168.1.20。")
+        #expect(c.message(service: "s", host: "192.168.1.20", model: "m") == "BEO没有本地网络权限，连不上 192.168.1.20。")
         #expect(c.proxyLine(service: "s", host: "192.168.1.20") == nil)
         c.pass(upTo: .text, seconds: 1)
         #expect(!c.localNetworkDenied && !c.needsLocalNetwork)

@@ -1,7 +1,7 @@
 import Foundation
 import Network
 
-/// Tells "macOS won't let Cicada reach the local network" apart from "the server is down": both
+/// Tells "macOS won't let BEO reach the local network" apart from "the server is down": both
 /// fail a request the same way, but only one is fixed in System Settings. Asked only after a
 /// request to a server on the local network failed, so it never brings up the permission prompt
 /// for anyone who doesn't use one.

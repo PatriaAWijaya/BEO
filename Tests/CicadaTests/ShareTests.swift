@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// The share document is a contract with the server (server/src/doc.js) and the ports: the same
 /// record must give the same bytes (Tests/fixtures/share).

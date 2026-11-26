@@ -132,7 +132,7 @@ enum RichCopy {
         let view = VStack(alignment: .trailing, spacing: 8) {
             FishboneView(fishbone: f, forPicture: true)
             if let caption, !caption.isEmpty {
-                Text("\(caption) · Cicada").font(.system(size: 10)).foregroundStyle(Palette.tertiary)
+                Text("\(caption) · BEO").font(.system(size: 10)).foregroundStyle(Palette.tertiary)
             }
         }
         .padding(16)

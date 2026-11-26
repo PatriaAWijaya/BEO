@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct SystemMicTests {
     let builtIn = SystemMicPlan.Device(uid: "BuiltInMicrophoneDevice", isVirtual: false)

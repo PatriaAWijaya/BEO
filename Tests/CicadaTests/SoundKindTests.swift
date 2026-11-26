@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// `SoundKind` in front of Ming, on the evaluation clips (see `VADEval`).
 extension VADEval {

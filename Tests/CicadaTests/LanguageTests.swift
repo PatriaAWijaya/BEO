@@ -1,5 +1,5 @@
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct LanguageTests {
     @Test(arguments: [

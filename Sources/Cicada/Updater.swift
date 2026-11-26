@@ -27,7 +27,7 @@ enum Updater {
             throw Failure(L("请先把应用拖进“应用程序”文件夹"))
         }
 
-        let work = FileManager.default.temporaryDirectory.appendingPathComponent("CicadaUpdate-\(UUID().uuidString)")
+        let work = FileManager.default.temporaryDirectory.appendingPathComponent("BEOUpdate-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: work, withIntermediateDirectories: true)
         do {
             let zip = work.appendingPathComponent(zipURL.lastPathComponent)
@@ -40,7 +40,7 @@ enum Updater {
 
             let unpacked = work.appendingPathComponent("unpacked")
             try await run("/usr/bin/ditto", "-x", "-k", zip.path, unpacked.path)
-            let newApp = unpacked.appendingPathComponent("Cicada.app")
+            let newApp = unpacked.appendingPathComponent("BEO.app")
             let info = Bundle(url: newApp)?.infoDictionary
             guard info?["CFBundleIdentifier"] as? String == Bundle.main.bundleIdentifier,
                   info?["CFBundleShortVersionString"] as? String == update.version else {

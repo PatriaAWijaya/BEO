@@ -1,7 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// 电脑和会议室 records the room mic too, and the meeting keeps one recording with both (issue #19).
 @MainActor @Suite struct RoomRecordingTests {

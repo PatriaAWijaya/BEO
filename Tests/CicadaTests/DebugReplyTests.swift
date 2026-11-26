@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct DebugReplyTests {
     private func decode(_ r: DebugReply) -> [String: Any] {

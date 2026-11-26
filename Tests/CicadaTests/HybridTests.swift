@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct EchoMatchTests {
     private func h(_ t: String, _ s: Double, _ e: Double) -> EchoMatch.Heard { .init(text: t, start: s, end: e) }

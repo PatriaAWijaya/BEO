@@ -1,7 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct VoiceReferenceTests {
     /// `seconds` of silence, then `speech` seconds of a 200 Hz tone, then silence.

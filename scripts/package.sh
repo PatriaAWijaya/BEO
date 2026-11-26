@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds the release app and packages it in build/:
-#   Cicada-<version>-macOS-AppleSilicon.dmg/.zip   Apple silicon (arm64)
-#   Cicada-<version>-macOS-Intel.dmg/.zip          Intel (x86_64)
+#   BEO-<version>-macOS-AppleSilicon.dmg/.zip   Apple silicon (arm64)
+#   BEO-<version>-macOS-Intel.dmg/.zip          Intel (x86_64)
 #   checksums.txt                                  SHA-256 of all packaged files
 # Set ARCH=arm64 or ARCH=x86_64 to package one architecture; defaults to both ("arm64 x86_64").
 # With SIGN_IDENTITY (a Developer ID Application identity) the app and DMG are signed and then
@@ -27,7 +27,7 @@ notarize() {
   }
 }
 ARCHS="${ARCH:-arm64 x86_64}"
-rm -f build/Cicada-*.zip build/Cicada-*.dmg build/LiveSubs-*.zip build/LiveSubs-*.dmg build/checksums.txt
+rm -f build/BEO-*.zip build/BEO-*.dmg build/LiveSubs-*.zip build/LiveSubs-*.dmg build/checksums.txt
 rm -rf build/dmg && mkdir -p build/dmg
 
 for A in $ARCHS; do
@@ -36,10 +36,10 @@ for A in $ARCHS; do
   else
     SUFFIX="macOS-AppleSilicon"
   fi
-  NAME="Cicada-$VERSION-$SUFFIX"
+  NAME="BEO-$VERSION-$SUFFIX"
 
   ARCH="$A" RELEASE=1 scripts/build.sh
-  APP=build/Cicada.app
+  APP=build/BEO.app
   ID=$(/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "$APP/Contents/Info.plist")
   [[ "$ID" == com.wquguru.cicada ]] || { echo "Not a release build: $ID" >&2; exit 1; }
 
@@ -54,10 +54,10 @@ for A in $ARCHS; do
 
   # Installer window background, drawn by the app itself at 1x and 2x (once per run, using a host binary if cross-compiling).
   if [[ ! -f build/dmg/background.tiff ]]; then
-    RENDER_BIN="$APP/Contents/MacOS/Cicada"
+    RENDER_BIN="$APP/Contents/MacOS/BEO"
     if [[ "$A" != "$(uname -m)" ]]; then
-      swift build -c release --product Cicada
-      RENDER_BIN="$(swift build -c release --show-bin-path)/Cicada"
+      swift build -c release --product BEO
+      RENDER_BIN="$(swift build -c release --show-bin-path)/BEO"
     fi
     "$RENDER_BIN" --render-dmg-background build/dmg/background.png 1
     "$RENDER_BIN" --render-dmg-background build/dmg/background@2x.png 2
@@ -66,7 +66,7 @@ for A in $ARCHS; do
 
   # The window layout is a Finder-made .DS_Store kept in the repo (scripts/dmg-template.sh), so
   # packaging needs no Finder scripting and works in CI. Without it the DMG still works, just
-  # without the arranged window. The volume is always named "Cicada".
+  # without the arranged window. The volume is always named "BEO".
   STAGE=build/dmg/stage
   MOUNT=build/dmg/mount
   rm -rf "$STAGE" "$MOUNT" build/dmg/rw.dmg
@@ -76,7 +76,7 @@ for A in $ARCHS; do
   cp build/dmg/background.tiff "$STAGE/.background/background.tiff"
   [[ -f Resources/dmg/DS_Store ]] && cp Resources/dmg/DS_Store "$STAGE/.DS_Store"
   cp "$APP/Contents/Resources/AppIcon.icns" "$STAGE/.VolumeIcon.icns"
-  hdiutil create -quiet -srcfolder "$STAGE" -volname "Cicada" -fs HFS+ -format UDRW -ov build/dmg/rw.dmg
+  hdiutil create -quiet -srcfolder "$STAGE" -volname "BEO" -fs HFS+ -format UDRW -ov build/dmg/rw.dmg
   hdiutil attach -quiet -readwrite -noverify -noautoopen -nobrowse -mountpoint "$MOUNT" build/dmg/rw.dmg
   SetFile -a C "$MOUNT" 2>/dev/null || true
   hdiutil detach -quiet "$MOUNT"
@@ -86,11 +86,11 @@ for A in $ARCHS; do
     notarize "build/$NAME.dmg"
     xcrun stapler staple -q "build/$NAME.dmg"
   fi
-  # Drop the staged copy so Spotlight and Launch Services don't list a second Cicada.app.
+  # Drop the staged copy so Spotlight and Launch Services don't list a second BEO.app.
   rm -rf "$STAGE" "$MOUNT" build/dmg/rw.dmg
 done
 
 rm -f build/notary.json
-(cd build && shasum -a 256 Cicada-*.dmg Cicada-*.zip > checksums.txt)
+(cd build && shasum -a 256 BEO-*.dmg BEO-*.zip > checksums.txt)
 echo "Packaged:"
-ls -1 build/Cicada-*.dmg build/Cicada-*.zip build/checksums.txt
+ls -1 build/BEO-*.dmg build/BEO-*.zip build/checksums.txt

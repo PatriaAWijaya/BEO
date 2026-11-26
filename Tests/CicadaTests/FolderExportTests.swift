@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// 存到文件夹's file name and frontmatter are a contract with the ports (Tests/fixtures/folder-export).
 struct FolderExportTests {

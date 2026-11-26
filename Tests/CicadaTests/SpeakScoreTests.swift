@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct SpeakScoreTests {
     @Test func tokensSplitCJKByCharacterAndDropPunctuation() {

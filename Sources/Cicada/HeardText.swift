@@ -170,7 +170,7 @@ enum HeardText {
         }
     }
 
-    /// A line Cicada ended at a clause or between words comes back running on past it: split it at
+    /// A line BEO ended at a clause or between words comes back running on past it: split it at
     /// the boundary of at least `kind` nearest `near` (the draft's head when the cut was asked for).
     /// The final may drop the draft's comma: then the word gap nearest the cut.
     static func split(_ text: String, near: Int, kind: Boundary, language code: String) -> (head: String, tail: String)? {
@@ -199,7 +199,7 @@ enum HeardText {
     static let joinWords = 40
 
     /// Whether `next` carries on `previous`, from the same voice, rather than starting a sentence.
-    /// `gap`: seconds of audio between them. `cut`: Cicada ended `previous` at a pause (ListenEngine's
+    /// `gap`: seconds of audio between them. `cut`: BEO ended `previous` at a pause (ListenEngine's
     /// `maybeCutSentence`), so its closing "." is the recognizer's guess, not the speaker's: it is
     /// ignored when `next` starts in lower case (scripts without case keep it).
     static func continues(_ previous: String, _ next: String, gap: Double, cut: Bool) -> Bool {

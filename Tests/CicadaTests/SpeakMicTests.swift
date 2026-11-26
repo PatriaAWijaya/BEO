@@ -2,7 +2,7 @@ import AVFoundation
 import CoreAudio
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 private final class MicFrames: RecognitionStream, @unchecked Sendable {
     let format = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 16_000, channels: 1, interleaved: false)!

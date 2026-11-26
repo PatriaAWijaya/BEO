@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct SpeakerProfileTests {
     private func unit(_ index: Int, noise: Float = 0) -> [Float] {

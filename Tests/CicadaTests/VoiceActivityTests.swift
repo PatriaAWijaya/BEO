@@ -1,7 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct VoiceActivityTests {
     /// Blocks of `seconds` at `rms`, fed one after another on a running clock.

@@ -1,8 +1,12 @@
 <p align="center">
-  <img src="docs/icon.png" width="128" height="128" alt="Cicada icon">
+  <img src="docs/icon.png" width="128" height="128" alt="BEO icon">
 </p>
 
-<h1 align="center">Cicada · 知了</h1>
+<h1 align="center">BEO</h1>
+
+> BEO is a fork of [wquguru/cicada](https://github.com/wquguru/cicada) (知了 Cicada),
+> rebranded for local-first use: the default AI service is a local Ollama server,
+> so no Ling key is needed.
 
 <p align="center">
   Every call. Every stream. No language barrier.<br>
@@ -30,14 +34,14 @@
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a></p>
 
 > [!WARNING]
-> **Notice**: Cicada has nothing to do with any cryptocurrency, token or NFT. We have never issued a coin and never will.
+> **Notice**: BEO has nothing to do with any cryptocurrency, token or NFT. We have never issued a coin and never will.
 
-In meetings or livestreams, Cicada gives you live bilingual subtitles and writes structured meeting notes as it listens. When it's your turn to speak, hold the talk key (right `⌥` on Mac, right `Ctrl` on Windows, customizable) and talk—the other side hears your translated voice right in the call. Cicada listens to system audio directly without sending bots into the meeting, so no one else notices a thing. On Apple silicon Macs, all speech recognition runs on device, so audio never leaves your computer.
+In meetings or livestreams, BEO gives you live bilingual subtitles and writes structured meeting notes as it listens. When it's your turn to speak, hold the talk key (right `⌥` on Mac, right `Ctrl` on Windows, customizable) and talk—the other side hears your translated voice right in the call. BEO listens to system audio directly without sending bots into the meeting, so no one else notices a thing. On Apple silicon Macs, all speech recognition runs on device, so audio never leaves your computer.
 
 **Where it works**: Anything that plays sound on your computer—Tencent Meeting, Feishu, DingTalk, WeCom, Zoom, Teams, Google Meet, Webex, Discord, and Telegram voice chats, plus X Spaces, YouTube, Twitch, Bilibili Live, podcasts, and web pages. On phones, the system blocks recording audio from call and meeting apps—put it on speaker and use In person instead.
 
 <p align="center">
-  <img src="docs/demo.gif" width="800" alt="A Bloomberg English livestream on YouTube with Cicada's live Chinese notes, topics, and fishbone diagram on the right and bilingual subtitles at the bottom">
+  <img src="docs/demo.gif" width="800" alt="A Bloomberg English livestream on YouTube with BEO's live Chinese notes, topics, and fishbone diagram on the right and bilingual subtitles at the bottom">
 </p>
 
 ## Platforms
@@ -49,23 +53,23 @@ In meetings or livestreams, Cicada gives you live bilingual subtitles and writes
 | Linux | Ubuntu 22.04 / 24.04 desktop | Needs an AI service key; the notes window is visible in screen sharing; see [linux/](linux/README.md) |
 | Android | Android 10+ | Needs an AI service key; subtitles for videos and streams, face-to-face interpreting; see [android/](android/README.md) |
 
-Installers are available on [the download page](https://cicada.indaloop.app/en/download/) and [Releases](https://github.com/wquguru/cicada/releases). All four platforms share the same version number and meeting record format. The sections below use the Mac app to walk through the features.
+Installers are available on [the download page](https://cicada.indaloop.app/en/download/) and [Releases](https://github.com/PatriaAWijaya/BEO/releases). All four platforms share the same version number and meeting record format. The sections below use the Mac app to walk through the features.
 
 ## Features
 
 ### Live notes and bilingual transcript
 
-As you listen, Cicada organizes a summary, topics and key points, conclusions, to-dos, a fishbone diagram, and a glossary of names and terms. Click any conclusion or to-do to jump straight back to the original lines. Press `⌘F` to search—even misrecognized homophones show up.
+As you listen, BEO organizes a summary, topics and key points, conclusions, to-dos, a fishbone diagram, and a glossary of names and terms. Click any conclusion or to-do to jump straight back to the original lines. Press `⌘F` to search—even misrecognized homophones show up.
 
 With an AI service connected, misheard names and terms are fixed on the spot: homophones are corrected right away, while unfamiliar names are asked about once and fixed automatically once you confirm. You can paste common terms into **Word list** in Settings ahead of time. After the meeting, select **Edit line…** to batch-fix the same misheard word across the whole session, with full undo support.
 
 ### Live subtitles and language detection
 
-Cicada detects the spoken language within seconds and translates it into your system language; press `⌃⌥S` to switch display modes. The subtitle bar only appears when someone speaks and turns see-through under your pointer so it stays out of the way. On macOS 26 with Apple silicon, Cicada also re-listens on device to refine each line 15 to 30 seconds later, fixing typos and missed words.
+BEO detects the spoken language within seconds and translates it into your system language; press `⌃⌥S` to switch display modes. The subtitle bar only appears when someone speaks and turns see-through under your pointer so it stays out of the way. On macOS 26 with Apple silicon, BEO also re-listens on device to refine each line 15 to 30 seconds later, fixing typos and missed words.
 
 ### In-person and hybrid meetings
 
-Click **Turn on mic** to capture people speaking in the room. Hybrid meetings use this same button: computer audio is marked **Online** and microphone audio is marked **In room**, combined in a single record (on macOS 14 and 15, turning on the mic listens only to the room). On speakers, Cicada automatically deduplicates audio; with headphones on, both sides can talk at once and both are kept. Windows and Linux follow the same rules.
+Click **Turn on mic** to capture people speaking in the room. Hybrid meetings use this same button: computer audio is marked **Online** and microphone audio is marked **In room**, combined in a single record (on macOS 14 and 15, turning on the mic listens only to the room). On speakers, BEO automatically deduplicates audio; with headphones on, both sides can talk at once and both are kept. Windows and Linux follow the same rules.
 
 On a Mac, the small arrow beside the button picks which microphone to use (an iPhone or a conference mic, say) without changing the system default. What the mic hears only goes into the notes, never into the meeting; for the other side to hear you, use simultaneous interpreting below.
 
@@ -130,7 +134,7 @@ The table below shows the setup on Apple silicon Macs. When using a self-hosted 
 ## Setting up a Ling API key
 
 1. Sign up and log in on the [Ling open platform](https://chat.ant-ling.com/platform/api), create a token, and copy the key starting with `sk-`.
-2. Open **Settings › AI Service** in Cicada (or the banner at the top of the notes window), paste the key, and save.
+2. Open **Settings › AI Service** in BEO (or the banner at the top of the notes window), paste the key, and save.
 
 **Can't sign up for Ling?** At the top right of **Settings › AI Service** (or by clicking **Can't use Ling?** during onboarding), you can switch to OpenRouter, ZenMux, OpenAI, or any OpenAI-compatible service (including local or LAN services like Ollama, vLLM, SGLang, Qwen3-ASR, and Whisper).
 
@@ -138,13 +142,13 @@ After switching, live notes and full-sentence translation still work, and OpenRo
 
 ## Requirements & Installation
 
-Installers are on the [Releases page](https://github.com/wquguru/cicada/releases/latest) and [the website](https://cicada.indaloop.app), and you can verify SHA-256 checksums against `checksums.txt` in Releases. If you run into questions, reach out to the author [@wquguru](https://x.com/wquguru) on X.
+Installers are on the [Releases page](https://github.com/PatriaAWijaya/BEO/releases/latest) and [the website](https://cicada.indaloop.app), and you can verify SHA-256 checksums against `checksums.txt` in Releases. If you run into questions, reach out to the author [@wquguru](https://x.com/wquguru) on X.
 
 ### Mac
 
 Requires macOS 14.4+ (Apple silicon and Intel). On Apple silicon with macOS 14.4–15, first go to **System Settings › Keyboard** to turn on **Dictation** and add the languages you want heard; macOS 26 uses the new on-device model directly without needing Dictation; Intel Macs use cloud-based Ming recognition and require a Ling key.
 
-Download `Cicada-<version>-macOS-AppleSilicon.dmg` or `Cicada-<version>-macOS-Intel.dmg` and drag Cicada into Applications (verify with `shasum -a 256 Cicada-*.dmg`). The app is signed and notarized by Apple, so it opens with a double-click. Follow the onboarding guide to grant permissions and try the sample meeting.
+Download `BEO-<version>-macOS-AppleSilicon.dmg` or `BEO-<version>-macOS-Intel.dmg` and drag BEO into Applications (verify with `shasum -a 256 BEO-*.dmg`). BEO releases are ad-hoc signed for now, so the first launch may need a right-click › Open. Follow the onboarding guide to grant permissions and try the sample meeting.
 
 <p align="center">
   <img src="docs/onboarding.png" width="640" alt="Onboarding step 2 playing a two-person sample meeting with live bilingual subtitles">
@@ -175,7 +179,7 @@ In rough order of priority; feel free to open an Issue for what you'd like to se
 
 ## Uninstall
 
-Quit Cicada and drag it from the Applications folder to the Trash. Meeting records and recordings are in `~/Library/Application Support/LiveSubs` and can be deleted manually if no longer needed. To clear settings, run:
+Quit BEO and drag it from the Applications folder to the Trash. Meeting records and recordings are in `~/Library/Application Support/LiveSubs` and can be deleted manually if no longer needed. To clear settings, run:
 
 ```bash
 defaults delete com.wquguru.cicada
@@ -186,8 +190,8 @@ defaults delete com.wquguru.cicada
 The Mac app only requires Xcode Command Line Tools (`xcode-select --install`) and has no third-party dependencies. On macOS 27, if `SwiftUIMacros` is reported missing, install full Xcode and run `sudo xcode-select -s /Applications/Xcode.app`. For building on other platforms, see [windows/README.md](windows/README.md), [linux/README.md](linux/README.md), and [android/README.md](android/README.md).
 
 ```bash
-scripts/build.sh            # dev build → build/Cicada.app ("Cicada Dev", runs alongside the release app)
-open build/Cicada.app
+scripts/build.sh            # dev build → build/BEO.app ("BEO Dev", runs alongside the release app)
+open build/BEO.app
 scripts/package.sh          # package release DMG, zip, and SHA-256 checksums
 ```
 

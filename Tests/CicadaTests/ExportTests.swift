@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct ExportTests {
     private func line(_ id: String, _ t: Double, _ speaker: String, _ src: String, _ dst: String?) -> TranscriptLine {

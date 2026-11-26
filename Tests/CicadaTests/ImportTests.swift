@@ -1,7 +1,7 @@
 import AVFoundation
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct ImportTests {
     @Test func importableFiles() {

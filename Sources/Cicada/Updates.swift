@@ -34,7 +34,7 @@ final class Updates: ObservableObject {
     /// replace it: it checks only when pointed at a test feed.
     func start() {
         lastChecked = checker.lastChecked
-        guard !DevBuild.isDev || ProcessInfo.processInfo.environment["CICADA_UPDATE_FEED"] != nil else { return }
+        guard !DevBuild.isDev || ProcessInfo.processInfo.environment["BEO_UPDATE_FEED"] != nil else { return }
         started = true
         checker.start()
     }
@@ -80,7 +80,7 @@ final class Updates: ObservableObject {
         }
         notified = update.version
         let content = UNMutableNotificationContent()
-        content.title = L("知了有新版本 \(update.version)")
+        content.title = L("BEO有新版本 \(update.version)")
         content.body = L("点按安装，完成后自动重新打开")
         content.userInfo = ["update": update.version]
         let request = UNNotificationRequest(identifier: "update", content: content, trigger: nil)

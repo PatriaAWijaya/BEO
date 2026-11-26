@@ -29,7 +29,7 @@ enum SystemAudioPermission {
 }
 
 /// What the guide knows of 系统音频录制. Refused, turning it on later in System Settings only takes
-/// once Cicada is reopened (macOS says so too), so the guide offers that.
+/// once BEO is reopened (macOS says so too), so the guide offers that.
 enum SystemAudioAccess: Equatable {
     case unknown, granted, refused
 
@@ -147,7 +147,7 @@ final class SystemAudioTap {
         // Exclude our own process so the app's spoken translations never
         // come back in as subtitles.
         let desc = CATapDescription(stereoGlobalTapButExcludeProcesses: Self.ownProcessObject().map { [$0] } ?? [])
-        desc.name = "Cicada"
+        desc.name = "BEO"
         desc.isPrivate = true
 
         var tap = AudioObjectID(kAudioObjectUnknown)
@@ -159,7 +159,7 @@ final class SystemAudioTap {
 
         let aggregateUID = "com.wquguru.cicada.\(UUID().uuidString)"
         let aggregate: [String: Any] = [
-            kAudioAggregateDeviceNameKey: "Cicada Tap",
+            kAudioAggregateDeviceNameKey: "BEO Tap",
             kAudioAggregateDeviceUIDKey: aggregateUID,
             kAudioAggregateDeviceMainSubDeviceKey: outputUID,
             kAudioAggregateDeviceIsPrivateKey: true,

@@ -1,6 +1,6 @@
 import AVFoundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 private final class NullStream: RecognitionStream, @unchecked Sendable {
     let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 16000, channels: 1, interleaved: false)!

@@ -1,5 +1,5 @@
 // Renders the app icon (logo B: a cicada's eyes and wings peeking over a white subtitle card, on orange)
-// into an .iconset. `CicadaIcon [--dev] <out.iconset>`; --dev adds a "DEV" band.
+// into an .iconset. `BEOIcon [--dev] <out.iconset>`; --dev adds a "DEV" band.
 import AppKit
 
 let orange = NSColor(srgbRed: 0.91, green: 0.33, blue: 0.17, alpha: 1)   // #E8552B

@@ -327,7 +327,7 @@ struct ShareSheet: View {
         case "rate_limited", "too_many_shares": return L("分享得太频繁了，请稍后再试。")
         case "review_unavailable": return L("敏感内容检查暂时不可用，没有检查就不会分享。请稍后再试。")
         case "sharing_off": return L("分享功能暂时关闭了。")
-        case "update_required": return L("请先更新知了。")
+        case "update_required": return L("请先更新BEO。")
         case "too_large": return L("这场会议太长，可以只分享纪要。")
         case "bad_document": return L("这场会议没有可分享的内容。")
         case "network": return L("连不上 cicada.indaloop.app，请检查网络。")

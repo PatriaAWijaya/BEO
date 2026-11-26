@@ -70,7 +70,7 @@ struct FolderExportSettings: View {
                 switch problem {
                 case .denied:
                     Text("没有权限写入 \(FolderExporter.shortPath(folder))").font(.system(size: 13, weight: .semibold))
-                    Text(waiting > 0 ? L("\(waiting) 场会议没存上，允许后自动补存") : L("在系统设置里允许知了，或换个文件夹"))
+                    Text(waiting > 0 ? L("\(waiting) 场会议没存上，允许后自动补存") : L("在系统设置里允许BEO，或换个文件夹"))
                         .font(.system(size: 12)).foregroundStyle(Palette.secondary)
                 case .missing:
                     Text("找不到 \(FolderExporter.shortPath(folder))").font(.system(size: 13, weight: .semibold))
@@ -89,7 +89,7 @@ struct FolderExportSettings: View {
     }
 }
 
-/// 存到哪里: an Obsidian vault first (a new Cicada folder in it), then 文稿 › Cicada, or any folder.
+/// 存到哪里: an Obsidian vault first (a new BEO folder in it), then 文稿 › BEO, or any folder.
 struct FolderChoice: View {
     let current: URL?
     let done: (URL?) -> Void
@@ -100,10 +100,10 @@ struct FolderChoice: View {
         self.current = current
         self.done = done
         var options: [(String, String?, URL?)] = FolderExportFormat.obsidianVaults.prefix(3).map {
-            (L("Obsidian 库「\($0.lastPathComponent)」"), L("在库里新建 Cicada 文件夹"), $0.appendingPathComponent("Cicada", isDirectory: true))
+            (L("Obsidian 库「\($0.lastPathComponent)」"), L("在库里新建 BEO 文件夹"), $0.appendingPathComponent("BEO", isDirectory: true))
         }
         let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        options.append((FileManager.default.displayName(atPath: documents.path) + " › Cicada", nil, documents.appendingPathComponent("Cicada", isDirectory: true)))
+        options.append((FileManager.default.displayName(atPath: documents.path) + " › BEO", nil, documents.appendingPathComponent("BEO", isDirectory: true)))
         options.append((L("其他文件夹…"), nil, nil))
         self.options = options
     }

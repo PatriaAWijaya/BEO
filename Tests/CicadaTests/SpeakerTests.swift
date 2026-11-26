@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct SpeakerTests {
     /// 1 s of two tones plus a deterministic ripple; reference values from

@@ -156,7 +156,7 @@ struct AIServiceStrip: View {
         guard let f = c.failure else {
             return c.balanceLine(service: name).map { ($0, L("用完后纪要会停下")) }
         }
-        if f.reason == .unreachable { return (c.localNetworkDenied ? L("知了没有本地网络权限") : L("连不上 \(name)"), stopped) }
+        if f.reason == .unreachable { return (c.localNetworkDenied ? L("BEO没有本地网络权限") : L("连不上 \(name)"), stopped) }
         return Self.blocking(ling, textModel: model.settings.textModel).map { ($0, stopped) }
     }
 

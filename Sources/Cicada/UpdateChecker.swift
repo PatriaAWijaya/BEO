@@ -18,14 +18,14 @@ final class UpdateChecker {
         let size: Int
     }
 
-    static let repository = URL(string: "https://github.com/wquguru/cicada")!
+    static let repository = URL(string: "https://github.com/PatriaAWijaya/BEO")!
 
-    /// `CICADA_UPDATE_FEED` (or the `updateFeed:` debug command) points at another release JSON,
+    /// `BEO_UPDATE_FEED` (or the `updateFeed:` debug command) points at another release JSON,
     /// a list or a single release; a file:// URL works, for testing.
     /// The list, not `releases/latest`: every platform shares one version, and a release that only
     /// ships Windows, Android or Linux has no Mac zip, so the newest Mac release may be further down.
-    var feed = ProcessInfo.processInfo.environment["CICADA_UPDATE_FEED"].flatMap(URL.init(string:))
-        ?? URL(string: "https://api.github.com/repos/wquguru/cicada/releases?per_page=20")!
+    var feed = ProcessInfo.processInfo.environment["BEO_UPDATE_FEED"].flatMap(URL.init(string:))
+        ?? URL(string: "https://api.github.com/repos/PatriaAWijaya/BEO/releases?per_page=20")!
     private let onUpdate: (Update?) -> Void
     private var timer: Timer?
     private var wakeObserver: Any?
@@ -108,7 +108,7 @@ final class UpdateChecker {
         let shipped = releases.compactMap { release -> Update? in
             guard release.draft != true, release.prerelease != true,
                   let url = URL(string: release.html_url),
-                  let zip = release.assets.first(where: { $0.name.hasPrefix("Cicada-") && $0.name.hasSuffix(suffix) })
+                  let zip = release.assets.first(where: { $0.name.hasPrefix("BEO-") && $0.name.hasSuffix(suffix) })
             else { return nil }
             let checksums = release.assets.first { $0.name == "checksums.txt" }
             return Update(version: release.tag_name.trimmingCharacters(in: CharacterSet(charactersIn: "v")), url: url,

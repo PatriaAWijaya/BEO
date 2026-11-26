@@ -3,7 +3,7 @@
 # SSH key ~/VMs/mac_key, the shared folder ~/VMs/share (/Volumes/My Shared Files/share in the VM).
 #   tools/macos-vm/vm.sh setup     # once: pull the image (~18 GB), clone it, install the key and helpers
 #   tools/macos-vm/vm.sh start     # boot it (window on screen), tunnel the host proxy into it
-#   tools/macos-vm/vm.sh deploy    # install build/Cicada.app (a dev build) in the VM and launch it
+#   tools/macos-vm/vm.sh deploy    # install build/BEO.app (a dev build) in the VM and launch it
 #   tools/macos-vm/vm.sh listen <clip in ~/VMs/share> [wait]   # start listening, play the clip there, print the log
 #   tools/macos-vm/vm.sh ssh [command]
 #   tools/macos-vm/vm.sh stop
@@ -50,9 +50,9 @@ deploy)
   # A new file name each time: the shared folder keeps serving a replaced directory from its cache.
   n="cicada-$(date +%s).tgz"
   rm -f "$SHARE"/cicada-*.tgz
-  tar -czf "$SHARE/$n" -C "$repo/build" Cicada.app
-  run "pkill -x Cicada || true; sleep 1; rm -rf /Applications/Cicada.app; tar -xzf '/Volumes/My Shared Files/share/$n' -C /Applications
-    : > /tmp/livesubs-dev-debug.log; open /Applications/Cicada.app; sleep 5; pgrep -lx Cicada"
+  tar -czf "$SHARE/$n" -C "$repo/build" BEO.app
+  run "pkill -x BEO || true; sleep 1; rm -rf /Applications/BEO.app; tar -xzf '/Volumes/My Shared Files/share/$n' -C /Applications
+    : > /tmp/livesubs-dev-debug.log; open /Applications/BEO.app; sleep 5; pgrep -lx BEO"
   ;;
 listen)
   run "~/bin/lsctl stop; sleep 1; : > /tmp/livesubs-dev-debug.log; ~/bin/lsctl start; sleep 3

@@ -147,7 +147,7 @@ enum FolderExportFormat {
 /// prompt blocks the thread that touches the folder.
 @MainActor final class FolderExporter: ObservableObject {
     enum Problem: Equatable {
-        /// macOS didn't let Cicada write there (privacy settings).
+        /// macOS didn't let BEO write there (privacy settings).
         case denied
         /// The folder, or the drive it was on, is gone.
         case missing
@@ -156,7 +156,7 @@ enum FolderExportFormat {
 
     struct Index: Codable, Equatable {
         var folder: String = ""
-        /// Record id → the file name Cicada wrote.
+        /// Record id → the file name BEO wrote.
         var files: [String: String] = [:]
         /// Records waiting to be written.
         var pending: [String] = []
@@ -206,7 +206,7 @@ enum FolderExportFormat {
         store.sessions.filter { ready($0) && index.files[$0.id] == nil && !index.pending.contains($0.id) }
     }
 
-    /// "工作笔记 › Cicada": the folder and the one it is in, as Finder names them.
+    /// "工作笔记 › BEO": the folder and the one it is in, as Finder names them.
     static func shortPath(_ url: URL) -> String {
         let fm = FileManager.default
         return [url.deletingLastPathComponent().path, url.path].map { fm.displayName(atPath: $0) }.joined(separator: " › ")
@@ -379,7 +379,7 @@ enum FolderExportFormat {
                 out.append(.stopped(classify(error, folder)))
                 return out
             }
-            // Renamed: the old file goes, only if it is the one Cicada wrote.
+            // Renamed: the old file goes, only if it is the one BEO wrote.
             if let old = job.old, old != name { try? fm.removeItem(at: folder.appendingPathComponent(old)) }
             ours[job.id] = name
             out.append(.wrote(id: job.id, name: name))
@@ -434,7 +434,7 @@ enum FolderExportFormat {
 
     private func notifyDenied() {
         guard let folder else { return }
-        let title = L("纪要没存到文件夹"), body = L("知了没有权限写入 \(Self.shortPath(folder))。点按去设置")
+        let title = L("纪要没存到文件夹"), body = L("BEO没有权限写入 \(Self.shortPath(folder))。点按去设置")
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { granted, _ in
             guard granted else { return }
             let content = UNMutableNotificationContent()

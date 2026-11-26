@@ -384,7 +384,7 @@ final class SpeakTester: ObservableObject {
             if let t = p.textAt, let tr = p.translatedAt { r.translate = tr.timeIntervalSince(t) }
             if let tr = p.translatedAt, let f = p.firstAudioAt { r.synth = f.timeIntervalSince(tr) }
         }
-        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("CicadaSpeakTest", isDirectory: true)
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("BEOSpeakTest", isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         if !r.sample, let wav = p.pressWAV {
             let url = dir.appendingPathComponent("mic.wav")

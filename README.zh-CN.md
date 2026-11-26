@@ -2,7 +2,7 @@
   <img src="docs/icon.png" width="128" height="128" alt="知了图标">
 </p>
 
-<h1 align="center">知了 · Cicada</h1>
+<h1 align="center">BEO</h1>
 
 <p align="center">
   任何会议、任何直播，没有语言障碍。<br>
@@ -186,8 +186,8 @@ defaults delete com.wquguru.cicada
 Mac 版只需安装 Xcode Command Line Tools（`xcode-select --install`），无第三方依赖。macOS 27 上若报 `SwiftUIMacros` 缺失，安装完整 Xcode 并运行 `sudo xcode-select -s /Applications/Xcode.app`。其他平台构建见 [windows/README.md](windows/README.md)、[linux/README.md](linux/README.md)、[android/README.md](android/README.md)。
 
 ```bash
-scripts/build.sh            # 编译开发版 → build/Cicada.app（名为 Cicada Dev，可与正式版同时运行）
-open build/Cicada.app
+scripts/build.sh            # 编译开发版 → build/BEO.app（名为 BEO Dev，可与正式版同时运行）
+open build/BEO.app
 scripts/package.sh          # 打包正式版 DMG、zip 和 SHA-256 校验值
 ```
 

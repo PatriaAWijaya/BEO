@@ -11,10 +11,10 @@ struct Segment {
     /// The sentence's audio, 16 kHz mono, when telling voices apart is on.
     var voiceSamples: [Float]? = nil
     /// Where it sits in the recognizer's audio (seconds; `clock` changes with each new recognizer),
-    /// and whether Cicada ended it at a pause: what deciding a join needs (`HeardText.continues`).
+    /// and whether BEO ended it at a pause: what deciding a join needs (`HeardText.continues`).
     var start = 0.0, end = 0.0, clock = 0
     var cut = false
-    /// Cicada ended it where a sentence or clause ends, on purpose: the next line doesn't join it.
+    /// BEO ended it where a sentence or clause ends, on purpose: the next line doesn't join it.
     var split = false
     /// The record's own recognizer heard it too and will settle its words (`onRefined`).
     var refining = false
@@ -140,7 +140,7 @@ final class ListenEngine {
     private var askShown = false
 
     private var audioTap: AudioSource?
-    /// 会议室: the microphone Cicada listens to the room with; nil leaves the input on its default.
+    /// 会议室: the microphone BEO listens to the room with; nil leaves the input on its default.
     var roomDevice: (() -> OutputDevice?)?
     /// The Mac reading a translation aloud, or the talk key held: the room mic hears silence then.
     private var roomMuted = false
@@ -169,7 +169,7 @@ final class ListenEngine {
             // Chinese, never confirmed, and not one room line was written in 40 s.
             || role == .room
     }
-    /// macOS 14/15 with one Dictation language: nothing to compare it with and none Cicada could
+    /// macOS 14/15 with one Dictation language: nothing to compare it with and none BEO could
     /// fetch, and every check takes the recognizer from the meeting. It is taken as heard.
     private var legacySingleLanguage: Bool { Recognition.legacy && candidates.count < 2 }
     /// The only model there is checked the audio and it isn't its language (`LanguageDetection.Verdict.notThis`).
@@ -208,7 +208,7 @@ final class ListenEngine {
     private var cutting = false
     private var lastCut = ""
     private var lastCutThrough = 0.0
-    /// A cut was asked for: the next final line ends at Cicada's pause, not the speaker's.
+    /// A cut was asked for: the next final line ends at BEO's pause, not the speaker's.
     private var cutAsked = false
     /// The last draft that ended a sentence and its audio time (`HeardText.endsSentence`), and the
     /// head of one a cut was asked to end at: the final is checked against that, not the whole draft.
@@ -485,7 +485,7 @@ final class ListenEngine {
         if SystemAudioPermission.status() == .denied {
             debugLog("audio tap: system audio recording was refused")
             isRunning = false
-            setStatus(L("请在系统设置里允许“系统音频录制”，再重新打开知了"))
+            setStatus(L("请在系统设置里允许“系统音频录制”，再重新打开BEO"))
             return false
         }
         let tap = SystemAudioTap()
@@ -1045,7 +1045,7 @@ final class ListenEngine {
         }
     }
 
-    /// Why a model couldn't be had. At the five-model limit a model Cicada isn't using is given
+    /// Why a model couldn't be had. At the five-model limit a model BEO isn't using is given
     /// back first: true means one was, and the caller tries again; otherwise the problem is kept
     /// for 听不出 to show.
     private func modelFailed(_ lang: Lang, _ error: Error, picked: Bool) async -> Bool {

@@ -340,7 +340,7 @@ extension MenuPanelView {
 }
 
 extension MenuPanelView {
-    /// 外接麦克风断开了: what Cicada did instead. Goes away by itself.
+    /// 外接麦克风断开了: what BEO did instead. Goes away by itself.
     func roomMicLostStrip(_ next: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text("外接麦克风断开了").font(.system(size: 13, weight: .semibold)).foregroundStyle(Palette.ink)

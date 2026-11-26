@@ -672,7 +672,7 @@ final class AppModel: ObservableObject {
         }
     }
 
-    /// Quits and opens Cicada again: a permission turned on after it was refused takes only then.
+    /// Quits and opens BEO again: a permission turned on after it was refused takes only then.
     func relaunch() {
         // Quitting closes the guide, which would count as finishing it: it carries on after the reopen.
         relaunching = true
@@ -1779,7 +1779,7 @@ final class AppModel: ObservableObject {
         guard let prev = lastHeard, store.session(store.liveID ?? "")?.lines.last?.id == prev.line,
               prev.seg.clock == seg.clock, prev.seg.sourceCode == seg.sourceCode,
               // macOS 14/15: the older recognizer ends a line only at a real pause and often drops
-              // the full stop, so a missing one says nothing; only a line Cicada cut is a half sentence.
+              // the full stop, so a missing one says nothing; only a line BEO cut is a half sentence.
               !Recognition.legacy || prev.seg.cut, !prev.seg.split,
               HeardText.continues(prev.seg.text, seg.text, gap: seg.start - prev.seg.end, cut: prev.seg.cut) else {
             appendHeard(seg, t: t, tag: true)
@@ -1892,7 +1892,7 @@ final class AppModel: ObservableObject {
         importFiles(panel.urls)
     }
 
-    /// Dropped on the window or the Dock icon, opened with Cicada, or chosen: each file becomes a
+    /// Dropped on the window or the Dock icon, opened with BEO, or chosen: each file becomes a
     /// record, shown in the main window.
     func importFiles(_ urls: [URL]) {
         let files = urls.filter(FileImporter.importable)
@@ -2682,12 +2682,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, UNUs
         model.updates.start()
     }
 
-    /// Files dropped on the Dock icon or opened with Cicada: imported as records.
+    /// Files dropped on the Dock icon or opened with BEO: imported as records.
     func application(_ application: NSApplication, open urls: [URL]) {
         model.importFiles(urls)
     }
 
-    /// "转好了": shown even while Cicada is in front; a click opens that record.
+    /// "转好了": shown even while BEO is in front; a click opens that record.
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         [.banner]
     }
@@ -2698,7 +2698,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, UNUs
         let update = info["update"] as? String
         let problem = info["problem"] as? String
         await MainActor.run {
-            // "听不到会议室": straight to System Settings, without bringing Cicada forward.
+            // "听不到会议室": straight to System Settings, without bringing BEO forward.
             if problem == "mic" {
                 model.openMicrophoneSettings()
                 return

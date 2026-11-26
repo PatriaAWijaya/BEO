@@ -6,21 +6,21 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-[[ -d build/Cicada.app && -f build/dmg/background.tiff ]] || { echo "run scripts/package.sh first" >&2; exit 1; }
+[[ -d build/BEO.app && -f build/dmg/background.tiff ]] || { echo "run scripts/package.sh first" >&2; exit 1; }
 # A neutral scratch path: Finder records the disk image path in the layout.
 WORK=/tmp/cicada-dmg-template
-[[ ! -e "/Volumes/Cicada" ]] || { echo "eject the volume named Cicada first" >&2; exit 1; }
+[[ ! -e "/Volumes/BEO" ]] || { echo "eject the volume named BEO first" >&2; exit 1; }
 rm -rf "$WORK" && mkdir -p "$WORK/stage/.background"
-cp -R build/Cicada.app "$WORK/stage/"
+cp -R build/BEO.app "$WORK/stage/"
 ln -s /Applications "$WORK/stage/Applications"
 cp build/dmg/background.tiff "$WORK/stage/.background/background.tiff"
-hdiutil create -quiet -srcfolder "$WORK/stage" -volname "Cicada" -fs HFS+ -format UDRW -size 60m "$WORK/rw.dmg"
+hdiutil create -quiet -srcfolder "$WORK/stage" -volname "BEO" -fs HFS+ -format UDRW -size 60m "$WORK/rw.dmg"
 hdiutil attach -quiet -readwrite -noverify -noautoopen "$WORK/rw.dmg"
 
 # Window 640 × 520 of content (548 with the title bar); icons at the background's marks.
 osascript <<'APPLESCRIPT'
 tell application "Finder"
-  tell disk "Cicada"
+  tell disk "BEO"
     open
     set current view of container window to icon view
     set toolbar visible of container window to false
@@ -31,7 +31,7 @@ tell application "Finder"
     set icon size of opts to 112
     set text size of opts to 13
     set background picture of opts to file ".background:background.tiff"
-    set position of item "Cicada.app" of container window to {170, 175}
+    set position of item "BEO.app" of container window to {170, 175}
     set position of item "Applications" of container window to {470, 175}
     update without registering applications
     delay 2
@@ -42,7 +42,7 @@ APPLESCRIPT
 
 sync
 mkdir -p Resources/dmg
-cp "/Volumes/Cicada/.DS_Store" Resources/dmg/DS_Store
-hdiutil detach "/Volumes/Cicada" -quiet
+cp "/Volumes/BEO/.DS_Store" Resources/dmg/DS_Store
+hdiutil detach "/Volumes/BEO" -quiet
 rm -rf "$WORK"
 echo "Updated Resources/dmg/DS_Store"

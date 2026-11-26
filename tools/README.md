@@ -21,7 +21,7 @@
   - 说话同传：`speakOn` / `speakOff` 开关，`speakAsk[:off]` 面板里第一次打开时的确认卡，`speakConfirmed:<on|off>` 是否已确认过，`speakFile:<音频>` 把文件按实时速度当作麦克风输入，`speakOut:<路径>` 把译文语音另存一份，`speakOutput:<设备名片段>` 改输出设备（留空 = 虚拟麦克风），`speakVP:<on|off>` 按键说话时用不用带回声消除的麦克风（默认开；日志 `voice mic: ready`、`speak: mic with echo cancellation`），`talkDown` / `talkUp` 用真麦克风按住、松开说话键（日志 `speak: on-device heard … Ming …`、没人说话时 `nothing said in the press`；每次按键都写 `speak: press of … s, voiced … s, quiet … dBFS, line … dBFS`，声音偏小但本机识别听出一句时 `quiet press, but the on-device recognizer heard … chars: sending`），`handsFree:<on|off>` 改“不用按键”（只在听会议时运行；日志 `hands-free: listening`、`voice began`、`sentence of … s`，没发出去时 `only … s of voice` / `… chars, too short` / `the meeting's own words`），`handsFreeDump:<路径>` 把回声消除后的麦克风写成 16 kHz float32 原始文件（留空停止）
   - 试一句：`speakTest:sample`（Mac 读一句示例）或 `speakTest:voice`（再发 `speakTestBegin` / `speakTestEnd` 当作按住、松开），结果以 `speak test:` 写进日志；`speakTestState`、`speakTestRender:<png>`、`speakTestClose`
   - 识别引擎：`recognizer:legacy` 在 macOS 26 上改用 14 / 15 的识别（`SFSpeechRecognizer`，第一次会要“语音识别”权限），`recognizer:cloud` 像 Intel Mac 那样全部交给 Ling 听（没有 key 就听不了），`recognizer:auto` 换回；下一次开始听起生效（或启动时 `open --env CICADA_RECOGNIZER=legacy`），日志里 `transcriber started recognizer=…`；`recordTrack:off` 让会议记录不再另用一遍不切句的识别（下一次开始听起生效，对比准确度用；`open --env CICADA_RECORD_TRACK=off` 同理），`recordState` 把还在校准的句数写进日志，打开 `debug` 后日志里有 `RECORD` 和 `REFINE`
-  - 多开：两边都设 `CICADA_DEBUG_CHANNEL=x`（`open -n --env CICADA_DEBUG_CHANNEL=x build/Cicada.app`），命令只发给这一份，日志在 `/tmp/livesubs-dev-debug-x.log`
+  - 多开：两边都设 `CICADA_DEBUG_CHANNEL=x`（`open -n --env CICADA_DEBUG_CHANNEL=x build/BEO.app`），命令只发给这一份，日志在 `/tmp/livesubs-dev-debug-x.log`
   - 导出：`export:<目录>`；复制：`copy[:<会议 id>]`（导出… › 复制全文）、`copyNotes[:<会议 id>]`（纪要 › 复制纪要），日志写出剪贴板里每种格式的字节数（`public.html`、`com.apple.flat-rtfd`、纯文本）；`fishboneRender:<会议 id>=<png>` 把第一张鱼骨图按“复制为图片”画出来
   - 导入录音或视频：`import:<路径>[,<路径>…]`（等于拖进会议记录窗口），`importState` 把进度写进日志，`importCancel` 停止转写，`importRetry:<会议 id>[=<locale>]` 重新转写（带 locale 等于在“这场会议只留下了录音”里选了这种语言），`importNotify` 把通知权限写进日志
   - 存到文件夹：`exportFolder:<路径>` 选文件夹（等于“存到这里”，会马上试写一次），`exportFolder:off` 关掉，`exportAll` 即“也存一份”，`rename:<会议 id>=<标题>` 像在记录里改标题（不给标题恢复自动标题），`exportState` 回复索引（`files`、`pending`、`unwritten`、`lastFile`）和问题（`denied` `missing` `failed`）
@@ -38,7 +38,7 @@
   - 更新与登录项：`updateFeed:<url>`、`updateCheck`、`updateInstall`、`updateState`、`loginItem[:on|off]`
   - 完整、最新的清单以 `AppModel.debugCommand` 里的 `switch` 为准。
 
-- `macos-vm/vm.sh setup|start|deploy|listen|ssh|stop`：macOS 14 测试虚拟机（tart，镜像实际是 14.5），在旧识别引擎上跑开发版。第一次 `setup`（约 18 GB），之后 `start`、`deploy`（装 `build/Cicada.app`）、`listen en.aiff`（片段放在 `~/VMs/share`）。截图用 `screencapture -l <tart 窗口 ID>`，点按用虚拟机里的 `~/bin/mouse`。虚拟机的声卡带麦克风，开始听时会先弹“麦克风”权限。
+- `macos-vm/vm.sh setup|start|deploy|listen|ssh|stop`：macOS 14 测试虚拟机（tart，镜像实际是 14.5），在旧识别引擎上跑开发版。第一次 `setup`（约 18 GB），之后 `start`、`deploy`（装 `build/BEO.app`）、`listen en.aiff`（片段放在 `~/VMs/share`）。截图用 `screencapture -l <tart 窗口 ID>`，点按用虚拟机里的 `~/bin/mouse`。虚拟机的声卡带麦克风，开始听时会先弹“麦克风”权限。
 
 ## 测试技巧
 
@@ -47,7 +47,7 @@
 - 纪要窗口不出现在截屏里：先发 `notesCapturable` 再 `screencapture -l`，或直接 `notesRender:`。
 - 合成的按键会发给所有 App：别的 App 的启动器可能抢走 ⌥ Space。模拟鼠标和按键需要终端有“辅助功能”权限。
 - 试一句可以测整条同传链路和延迟：`speakTest:sample` 连发几次，读日志里的 `speak test:` 行。
-- 端到端测更新：把根目录的 `VERSION` 调高再构建（构建完改回去），`ditto -c -k --keepParent build/Cicada.app Cicada-<v>-macOS-AppleSilicon.zip`，`shasum -a 256` 写进 `checksums.txt`，写一个资源地址用 `file://` 的 release JSON，从 scratchpad 运行旧版开发版（不要用 `build/` 里的），再 `updateFeed:file://…` 和 `updateInstall`。
+- 端到端测更新：把根目录的 `VERSION` 调高再构建（构建完改回去），`ditto -c -k --keepParent build/BEO.app BEO-<v>-macOS-AppleSilicon.zip`，`shasum -a 256` 写进 `checksums.txt`，写一个资源地址用 `file://` 的 release JSON，从 scratchpad 运行旧版开发版（不要用 `build/` 里的），再 `updateFeed:file://…` 和 `updateInstall`。
 - `mouse move|drag|dclick|click|scroll ...`：模拟鼠标移动、拖动、双击、单击、滚轮（`scroll x y 行数`，正数往上翻），坐标原点在主屏左下角。
 - `key`：模拟按住说话键。`key right [秒]` 单按右 ⌥；`key <keyCode> <Carbon 修饰键> [秒]` 按组合键（如 `key 122 0` 是 F1）；不带参数是 ⌥ Space。
 - `toggle-key`：模拟按一下 ⌃⌥S。

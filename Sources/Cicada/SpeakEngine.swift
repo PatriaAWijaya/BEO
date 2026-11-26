@@ -28,7 +28,7 @@ enum AudioDevices {
 
     static func outputs() -> [OutputDevice] { devices(scope: kAudioObjectPropertyScopeOutput) }
 
-    /// Devices with streams on one side (output or input), minus Cicada's own aggregate devices.
+    /// Devices with streams on one side (output or input), minus BEO's own aggregate devices.
     static func devices(scope: AudioObjectPropertyScope) -> [OutputDevice] {
         var addr = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDevices,
                                               mScope: kAudioObjectPropertyScopeGlobal,

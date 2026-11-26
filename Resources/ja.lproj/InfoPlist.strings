@@ -1,9 +1,9 @@
-CFBundleName = "Cicada";
-CFBundleDisplayName = "Cicada";
-NSAudioCaptureUsageDescription = "ライブ字幕を作るため、Cicada は Mac で再生中の音声を読み取ります。";
-NSMicrophoneUsageDescription = "話すキーを押している間、Cicada はマイクを使ってあなたの言葉を相手の言語に翻訳します。会議室を聞くときは、マイクでその場の人の声を聞きます。";
-NSSpeechRecognitionUsageDescription = "Cicada は音声をテキストにするために音声認識を使います。";
-NSLocalNetworkUsageDescription = "AI サービスに設定したローカルネットワーク上のサーバーに接続するためだけに使います。Cicada がほかのデバイスを探したり接続したりすることはありません。";
+CFBundleName = "BEO";
+CFBundleDisplayName = "BEO";
+NSAudioCaptureUsageDescription = "ライブ字幕を作るため、BEO は Mac で再生中の音声を読み取ります。";
+NSMicrophoneUsageDescription = "話すキーを押している間、BEO はマイクを使ってあなたの言葉を相手の言語に翻訳します。会議室を聞くときは、マイクでその場の人の声を聞きます。";
+NSSpeechRecognitionUsageDescription = "BEO は音声をテキストにするために音声認識を使います。";
+NSLocalNetworkUsageDescription = "AI サービスに設定したローカルネットワーク上のサーバーに接続するためだけに使います。BEO がほかのデバイスを探したり接続したりすることはありません。";
 NSDocumentsFolderUsageDescription = "会議のあと、議事録と文字起こしを選んだフォルダに保存するため。";
 NSDesktopFolderUsageDescription = "会議のあと、議事録と文字起こしを選んだフォルダに保存するため。";
 NSDownloadsFolderUsageDescription = "会議のあと、議事録と文字起こしを選んだフォルダに保存するため。";

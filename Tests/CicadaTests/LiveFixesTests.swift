@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// Who wins on a line: the user's decisions, then the word list, then the recheck, then the first guess.
 @MainActor @Suite struct LiveFixesTests {

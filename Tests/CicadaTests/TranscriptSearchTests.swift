@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct TranscriptSearchTests {
     private func line(_ id: String, _ src: String, _ dst: String? = nil) -> TranscriptLine {

@@ -653,7 +653,7 @@ struct SettingsView: View {
         return L("上次发言：松开后 \(String(format: "%.1f", v)) 秒，对方听到译文")
     }
 
-    /// 麦克风: the virtual mic as the system default while speaking, the real mic Cicada records
+    /// 麦克风: the virtual mic as the system default while speaking, the real mic BEO records
     /// from, and where the spoken translation goes. Their state shows in the card above.
     private var micSettings: some View {
         let virtual = model.virtualMic?.name ?? "BlackHole 2ch"

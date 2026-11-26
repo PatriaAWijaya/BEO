@@ -146,7 +146,7 @@ enum Recognition {
     static let dictationOff = NSError(domain: "LiveSubsSpeech", code: 3,
                                       userInfo: [NSLocalizedDescriptionKey: L("请在系统设置 › 键盘里打开“听写”")])
     static let notAllowed = NSError(domain: "LiveSubsSpeech", code: 2,
-                                    userInfo: [NSLocalizedDescriptionKey: L("请在系统设置里允许知了使用“语音识别”")])
+                                    userInfo: [NSLocalizedDescriptionKey: L("请在系统设置里允许BEO使用“语音识别”")])
 
     /// A problem only the user can fix in System Settings.
     static func needsUser(_ error: Error) -> Bool {

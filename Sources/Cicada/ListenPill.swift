@@ -85,7 +85,7 @@ struct ListenPill: View {
             HStack(spacing: 9) {
                 // In colour while idle too: the white pill against the ink one already tells off from on.
                 BrandMark(size: 22)
-                Text(L("知了")).font(.system(size: 13, weight: .heavy)).foregroundStyle(Palette.ink)
+                Text(L("BEO")).font(.system(size: 13, weight: .heavy)).foregroundStyle(Palette.ink)
                 Rectangle().fill(Palette.line).frame(width: 1, height: 14)
                 Text(model.autoEnded ? L("会议已自动结束") : L("开始听"))
                     .font(.system(size: 13, weight: .semibold)).foregroundStyle(Palette.ink)
@@ -179,7 +179,7 @@ struct ListenPill: View {
     }
 }
 
-/// The logo with accent rings swelling out of it while Cicada listens.
+/// The logo with accent rings swelling out of it while BEO listens.
 struct BreathingMark: View {
     var size: CGFloat = 22
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -233,7 +233,7 @@ struct BreathingDot: View {
     }
 }
 
-/// Bars that follow the loudness of what Cicada hears, newest on the right.
+/// Bars that follow the loudness of what BEO hears, newest on the right.
 struct LevelMeter: View {
     @ObservedObject var model: AppModel
     var bars = 9

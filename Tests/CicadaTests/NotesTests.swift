@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// Live notes rewrite only their last topics, so a long meeting's reply stays small.
 @MainActor @Suite struct NotesTests {

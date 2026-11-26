@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// Cases from a 21-minute meeting recording (a DeFi team's weekly), labelled by reading the context.
 @Suite struct CorrectionTests {

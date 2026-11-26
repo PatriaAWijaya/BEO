@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// The small state machines pulled out of the engines and views: each transition as the code relied on it.
 @Suite struct SystemAudioAccessTests {

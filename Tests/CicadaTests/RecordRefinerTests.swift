@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// The record's recognizer laid over the live lines (issue #14: a Chinese product meeting).
 @Suite struct RecordRefinerTests {

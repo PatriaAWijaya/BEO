@@ -19,4 +19,4 @@ func dateText(_ date: Date, _ template: String) -> String {
     return f.string(from: date)
 }
 
-let appDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? L("知了")
+let appDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? L("BEO")

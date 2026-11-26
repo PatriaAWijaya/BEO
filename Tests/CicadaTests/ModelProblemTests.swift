@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct ModelProblemTests {
     private func cause(_ e: Error, online: Bool = true, free: Int64? = 50_000_000_000) -> ModelProblem.Cause {
@@ -33,7 +33,7 @@ import Testing
         #expect(cause(own, online: false) == .dictation("add it in Dictation"))
     }
 
-    @Test func otherKeepsCicadasOwnMessage() {
+    @Test func otherKeepsBEOsOwnMessage() {
         let own = NSError(domain: "LiveSubsSpeech", code: 1, userInfo: [NSLocalizedDescriptionKey: "not on this Mac"])
         #expect(cause(own) == .other("not on this Mac"))
         #expect(cause(NSError(domain: "Whatever", code: 1)) == .other(nil))

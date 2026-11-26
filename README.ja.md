@@ -2,7 +2,7 @@
   <img src="docs/icon.png" width="128" height="128" alt="Cicada のアイコン">
 </p>
 
-<h1 align="center">Cicada · 知了</h1>
+<h1 align="center">BEO</h1>
 
 <p align="center">
   どんな会議も、どんな配信も、言葉の壁なく。<br>
@@ -186,8 +186,8 @@ defaults delete com.wquguru.cicada
 Mac 版は Xcode Command Line Tools（`xcode-select --install`）を入れるだけでよく、サードパーティの依存関係はありません。macOS 27 で `SwiftUIMacros` が見つからないエラーが出る場合は、完全版の Xcode をインストールして `sudo xcode-select -s /Applications/Xcode.app` を実行してください。ほかのプラットフォームのビルドについては [windows/README.md](windows/README.md)、[linux/README.md](linux/README.md)、[android/README.md](android/README.md) をご覧ください。
 
 ```bash
-scripts/build.sh            # 编译开发版 → build/Cicada.app（名为 Cicada Dev，可与正式版同时运行）
-open build/Cicada.app
+scripts/build.sh            # 编译开发版 → build/BEO.app（名为 BEO Dev，可与正式版同时运行）
+open build/BEO.app
 scripts/package.sh          # 打包正式版 DMG、zip 和 SHA-256 校验值
 ```
 

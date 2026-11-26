@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// Ending a meeting: an empty one goes, one whose recording holds speech stays (issue #5).
 @MainActor @Suite struct SessionStoreTests {

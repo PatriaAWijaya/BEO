@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct PressSpeechTests {
     /// `seconds` of a 200 Hz tone at `level` (0–1) after `quiet` seconds of room noise at `noise`.

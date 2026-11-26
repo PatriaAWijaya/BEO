@@ -86,7 +86,7 @@ extension AudioDevices {
     }
 }
 
-/// Which real microphone to come back to and which one Cicada records from. Pure, so it's tested.
+/// Which real microphone to come back to and which one BEO records from. Pure, so it's tested.
 /// Devices are compared by UID: IDs change when Core Audio restarts (the BlackHole install does).
 enum SystemMicPlan {
     struct Device: Equatable {
@@ -105,7 +105,7 @@ enum SystemMicPlan {
         return real.first?.uid
     }
 
-    /// What Cicada itself records from: the one picked in settings, else the original. Cicada must
+    /// What BEO itself records from: the one picked in settings, else the original. BEO must
     /// never follow the system default onto the virtual mic, or it would hear its own voice.
     static func recording(chosen: String, saved: String, current: String?, inputs: [Device]) -> String? {
         if inputs.contains(where: { $0.uid == chosen && !$0.isVirtual }) { return chosen }
@@ -115,7 +115,7 @@ enum SystemMicPlan {
 
 /// Points the system default input at the virtual mic while 同声传译 is on, so a meeting page in
 /// Chrome (and any app left on "default") hears the translation without being set up, and puts it
-/// back when speaking stops or Cicada quits. The device we switched from is saved in settings so
+/// back when speaking stops or BEO quits. The device we switched from is saved in settings so
 /// a crash can be undone on the next launch.
 @MainActor
 final class SystemMic {
@@ -124,7 +124,7 @@ final class SystemMic {
         case off
         /// The system mic is the virtual mic; `original` comes back when speaking stops.
         case switched(original: String)
-        /// Speaking is off but the system mic is still the virtual mic (Cicada quit uncleanly).
+        /// Speaking is off but the system mic is still the virtual mic (BEO quit uncleanly).
         case notRestored(original: String)
         /// Speaking is on but something else (AirPods, the user) moved the system mic away.
         case moved(to: String)
@@ -144,7 +144,7 @@ final class SystemMic {
         return AudioDevices.inputs().first { $0.uid == uid }
     }
 
-    /// The device Cicada records my voice from; nil leaves the engine on the system default.
+    /// The device BEO records my voice from; nil leaves the engine on the system default.
     var recordingDevice: OutputDevice? {
         device(SystemMicPlan.recording(chosen: settings.speakMic, saved: settings.savedSystemInput,
                                        current: AudioDevices.defaultInput?.uid, inputs: plan))

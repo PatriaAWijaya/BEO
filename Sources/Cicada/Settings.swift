@@ -56,7 +56,7 @@ final class AppSettings: ObservableObject {
     @Published var autoSystemMic: Bool {
         didSet { save() }
     }
-    /// The microphone Cicada records my voice from (UID), "" = the real mic the system had.
+    /// The microphone BEO records my voice from (UID), "" = the real mic the system had.
     @Published var speakMic: String {
         didSet { save() }
     }
@@ -199,7 +199,7 @@ final class AppSettings: ObservableObject {
     /// The text model in use, for display.
     var textModel: String { aiConfig.textModel }
 
-    /// Keep the icon in the Dock while Cicada runs. Off: menu bar only, the icon showing just while
+    /// Keep the icon in the Dock while BEO runs. Off: menu bar only, the icon showing just while
     /// the main, settings or onboarding window is open.
     @Published var showInDock: Bool {
         didSet { save() }
@@ -294,7 +294,7 @@ final class AppSettings: ObservableObject {
         // Anyone who had it on before this question existed already knows.
         speakConfirmed = defaults.object(forKey: "speakConfirmed") as? Bool ?? defaults.bool(forKey: "speakEnabled")
         speakFrom = defaults.string(forKey: "speakFrom")
-            ?? speakLocale(forLanguage: Cicada.myLanguage(systemLanguages: Locale.preferredLanguages))
+            ?? speakLocale(forLanguage: BEO.myLanguage(systemLanguages: Locale.preferredLanguages))
         speakHandsFree = defaults.bool(forKey: "speakHandsFree")
         speakTo = defaults.string(forKey: "speakTo") ?? "room"
         speakOutput = defaults.string(forKey: "speakOutput") ?? ""
@@ -415,13 +415,13 @@ final class AppSettings: ObservableObject {
     /// The reader's own language: the translate-to choice, or with "follow system" the one
     /// `myLanguage(systemLanguages:)` picks. Notes in 我的语言 use it too.
     var myLanguage: String {
-        target == "system" ? Cicada.myLanguage(systemLanguages: Locale.preferredLanguages) : target
+        target == "system" ? BEO.myLanguage(systemLanguages: Locale.preferredLanguages) : target
     }
 
     /// "简体中文 / English": my language, then what it translates into when they speak mine.
     func systemTargetDescription() -> String {
         let prefs = Locale.preferredLanguages
-        let mine = Cicada.myLanguage(systemLanguages: prefs)
+        let mine = BEO.myLanguage(systemLanguages: prefs)
         return [mine, followSystemTarget(source: mine, systemLanguages: prefs)].map(targetName).joined(separator: " / ")
     }
 

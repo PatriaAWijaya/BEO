@@ -9,12 +9,12 @@ struct ModelProblem: Equatable {
         case offline
         /// The disk is (nearly) full: only the user can make room.
         case disk
-        /// macOS keeps five speech models per app: Cicada gives one back and retries by itself,
+        /// macOS keeps five speech models per app: BEO gives one back and retries by itself,
         /// so this only shows when there is none it can give back.
         case limit
         /// macOS 14/15: the language (or Dictation itself) is added in Dictation settings, by the user.
         case dictation(String)
-        /// Anything else; a message of Cicada's own (the Dictation hint on macOS 14/15) when there is one.
+        /// Anything else; a message of BEO's own (the Dictation hint on macOS 14/15) when there is one.
         case other(String?)
     }
 

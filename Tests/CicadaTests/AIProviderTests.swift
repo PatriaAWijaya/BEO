@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 struct AIProviderTests {
     private func shaped(_ p: AIProvider) -> [String: Any] {

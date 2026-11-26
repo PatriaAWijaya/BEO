@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct NotesEditingTests {
     private var notes: MeetingNotes {

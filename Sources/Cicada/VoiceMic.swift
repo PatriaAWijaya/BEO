@@ -26,7 +26,7 @@ final class VoiceMic: @unchecked Sendable {
     /// nobody uses it. Measured with an ESP32 10 cm from the mic as me and the meeting on the MacBook's
     /// speakers, 200 ms stretches of my sentence that came through the unit: at 56 % 12 of 27 with
     /// minimum ducking, 23 with this; at 100 % 3 and 15. Plain maximum ducking (26–25) ducks the
-    /// meeting by ~25 dB for as long as the unit runs, Cicada's own capture of it too; this one only
+    /// meeting by ~25 dB for as long as the unit runs, BEO's own capture of it too; this one only
     /// while I speak (the capture dips with it then, and is back to its level when I stop).
     var advancedDucking = false
     static let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 16000, channels: 1, interleaved: false)!

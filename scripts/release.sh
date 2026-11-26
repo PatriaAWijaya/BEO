@@ -47,7 +47,7 @@ PY
 git add CHANGELOG.md VERSION site/changelog.json
 git commit -q --allow-empty -m "chore: release $TAG"
 trap - ERR
-git tag -a "$TAG" -m "Cicada $VERSION"
+git tag -a "$TAG" -m "BEO $VERSION"
 # Atomic: the tag never goes up without its commit. If someone pushed in between, undo and say so.
 if ! git push --atomic origin HEAD:main "$TAG"; then
   git tag -d "$TAG" >/dev/null

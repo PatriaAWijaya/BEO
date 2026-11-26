@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Cicada (知了, formerly Live Subs) turns what a computer plays into live translated subtitles and meeting notes, keeps each meeting as a bilingual record, and speaks what you say back into the room in their language. The Mac app (menu bar) is the main one; `windows/`, `android/` and `linux/` are ports with their own AGENTS.md. This file covers the whole repo and the Mac app.
+BEO (a fork of Cicada, ex Live Subs) turns what a computer plays into live translated subtitles and meeting notes, keeps each meeting as a bilingual record, and speaks what you say back into the room in their language. The Mac app (menu bar) is the main one; `windows/`, `android/` and `linux/` are ports with their own AGENTS.md. This file covers the whole repo and the Mac app.
 
 ## Scope
 
@@ -25,7 +25,7 @@ Cicada (知了, formerly Live Subs) turns what a computer plays into live transl
 
 - Ground `#F3F4F6`, white cards (the main window is one white sheet, no cards), ink `#15171C`, one accent `#E8552B` for "live", greys `#5A5F6B` / `#6B7080`. Design canvases on claude.ai and the app itself are the source of truth.
 - Copy is Chinese and short, at most one grey helper line. Chinese text is the localization key; `Resources/{en,ja,ko}.lproj` translate it. SwiftUI literals localize themselves; other UI strings use `L("…")`; never `L()` prompts, logs or stored values. After changing UI text run `python3 scripts/strings.py` (`--write` adds TODOs), and check the English UI, which runs wider.
-- The logo geometry is kept in step in `CicadaLogo` (`Onboarding.swift`), `Sources/CicadaIcon` and `site/icon.svg`; then rerun `scripts/site-images.sh`.
+- The app icon, in-app mark and menu-bar glyph are `Resources/AppIcon-BEO.png`, fitted to a 1024 square by `scripts/build.sh`; `Sources/CicadaIcon` unused now.
 
 ## Layout
 
@@ -37,7 +37,7 @@ Cicada (知了, formerly Live Subs) turns what a computer plays into live transl
 
 ```bash
 scripts/test.sh                        # AGENTS.md check + unit tests
-scripts/build.sh && open build/Cicada.app   # dev build: own bundle id, settings, log
+scripts/build.sh && open build/BEO.app   # dev build: own bundle id, settings, log
 RELEASE=1 scripts/build.sh             # release build
 scripts/package.sh                     # DMG + zip + checksums
 scripts/release.sh <x.y.z>             # whole flow (verify, draft, retest, publish): .claude/skills/release

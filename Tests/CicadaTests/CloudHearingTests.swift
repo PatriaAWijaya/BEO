@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// The ports' hearing tests (linux/tests/test_core.py `Hearing`, segmenter tests), same cases.
 struct CloudHearingTests {

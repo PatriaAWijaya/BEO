@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 @Suite struct HybridRecordTests {
     private func line(_ id: String, _ speaker: String = "them", via: String? = nil) -> TranscriptLine {
