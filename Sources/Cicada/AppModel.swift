@@ -1192,6 +1192,58 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// Clone through the local VoiceStudio server (no key): the custom service's voice base is VoiceStudio.
+    var voiceStudioAvailable: Bool {
+        let c = settings.aiConfig
+        return c.provider.id == .custom && c.isVoiceStudio && c.hasVoices
+    }
+    /// The VoiceStudio clone voice is ready to speak.
+    var voiceStudioCloneReady: Bool { voiceStudioAvailable && !settings.voiceStudioCloneVoice.isEmpty }
+
+    /// Create the VoiceStudio clone from a recording + transcript, replacing the previous one.
+    /// Stores the profile id; nil when VoiceStudio can't be reached or refuses it.
+    func voiceStudioCloneID(for audioURL: URL, text: String) async -> String? {
+        guard voiceStudioAvailable, let root = VoiceStudio.root(from: settings.aiConfig.voiceBase) else { return nil }
+        let old = settings.voiceStudioCloneVoice
+        do {
+            let id = try await VoiceStudio.createClone(root: root, audioURL: audioURL, text: text)
+            if !old.isEmpty, old != id { await VoiceStudio.deleteClone(root: root, id: old) }
+            settings.voiceStudioCloneVoice = id
+            debugLog("voiceStudio clone ready \(id)")
+            return id
+        } catch {
+            debugLog("voiceStudio clone failed: \(error)")
+            return nil
+        }
+    }
+
+    /// Drop the VoiceStudio clone (recording deleted): the profile goes too, so it can't speak stale.
+    func deleteVoiceStudioClone() {
+        let id = settings.voiceStudioCloneVoice
+        settings.voiceStudioCloneVoice = ""
+        guard voiceStudioAvailable, let root = VoiceStudio.root(from: settings.aiConfig.voiceBase),
+              !id.isEmpty else { return }
+        Task { await VoiceStudio.deleteClone(root: root, id: id) }
+    }
+
+    /// A speech stream through the local VoiceStudio server: a refused connection shows one short
+    /// notice ("VoiceStudio belum jalan") and the room still hears the Mac voice, instead of failing silently.
+    func voiceStudioSpeech(text: String, voice: String) -> AsyncThrowingStream<Data, Error>? {
+        let stream = ling.speech(text, voice: voice)
+        return AsyncThrowingStream { cont in
+            let task = Task { @MainActor [weak self] in
+                do {
+                    for try await chunk in stream { cont.yield(chunk) }
+                    cont.finish()
+                } catch {
+                    if VoiceStudio.isDown(error) { self?.speakNotice("VoiceStudio belum jalan") }
+                    cont.finish(throwing: error)
+                }
+            }
+            cont.onTermination = { _ in task.cancel() }
+        }
+    }
+
     /// The chosen voice for a language, or its default (the service's first with a key, else the
     /// Mac's). A choice the service in use cannot speak (Ming after switching to OpenRouter, the
     /// user's own voice without Ling) falls back to the default, and comes back with that service.
@@ -1199,7 +1251,7 @@ final class AppModel: ObservableObject {
         let fallback = VoiceCatalog.defaultID(for: language, hasKey: ling.speaks)
         guard let id = settings.speakVoices[VoiceCatalog.key(for: language)] else { return fallback }
         if id.hasPrefix("system:") { return id }
-        if id == "clone" { return VoiceReference.exists && ling.clones ? id : fallback }
+        if id == "clone" { return VoiceReference.exists && (ling.clones || voiceStudioCloneReady) ? id : fallback }
         return VoiceCatalog.remote(for: language).contains { $0.id == id } ? id : fallback
     }
 
@@ -1286,6 +1338,12 @@ final class AppModel: ObservableObject {
         guard ling.speaks else { return .system(nil) }
         if id.hasPrefix("cloud:") {
             let voice = String(id.dropFirst("cloud:".count))
+            if settings.aiConfig.isVoiceStudio {
+                return .stream { [weak self] text in
+                    self?.voiceStudioSpeech(text: text, voice: voice)
+                        ?? AsyncThrowingStream { $0.finish(throwing: LingClient.Failure.noKey) }
+                }
+            }
             return .stream { [weak self] text in
                 self?.ling.speech(text, voice: voice)
                     ?? AsyncThrowingStream { $0.finish(throwing: LingClient.Failure.noKey) }
@@ -1293,6 +1351,14 @@ final class AppModel: ObservableObject {
         }
         let lang = VoiceCatalog.mingLanguage(for: language)
         if id == "clone" {
+            // VoiceStudio first: the clone lives on the local server, no key, no per-request upload.
+            if voiceStudioCloneReady {
+                let voice = settings.voiceStudioCloneVoice
+                return .stream { [weak self] text in
+                    self?.voiceStudioSpeech(text: text, voice: voice)
+                        ?? AsyncThrowingStream { $0.finish(throwing: LingClient.Failure.noKey) }
+                }
+            }
             guard ling.clones else { return .system(nil) }
             guard let ref = VoiceReference.reference() else { return .system(nil) }
             return .stream { [weak self] text in
@@ -2245,6 +2311,15 @@ final class AppModel: ObservableObject {
             // voicePreview:<lang>=<id>
             let kv = arg.split(separator: "=", maxSplits: 1).map(String.init)
             if kv.count == 2 { previewVoice(kv[1], language: kv[0]) }
+        case "voiceStudioClone":
+            // voiceStudioClone: upload the saved recording as "my voice" to the local VoiceStudio server.
+            Task {
+                guard VoiceReference.exists, let text = VoiceReference.text, !text.isEmpty else {
+                    debugLog("voiceStudioClone: no recording"); return
+                }
+                let id = await voiceStudioCloneID(for: VoiceReference.audioURL, text: text)
+                debugLog("voiceStudioClone: \(id ?? "failed")")
+            }
         case "notesNow": notes.updateNow()
         case "micDeniedSim":
             // micDeniedSim:on|off: 电脑和会议室 as if the microphone were refused (the dot, banner, notification).

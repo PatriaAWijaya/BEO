@@ -178,7 +178,9 @@ struct VoiceSection: View {
     private var cloneRow: some View {
         let has = VoiceReference.exists && cloneVersion >= 0
         let selected = chosen == "clone"
-        if !ling.provider.clones {
+        // Either clone path opens the row: Ling (a key), or the local VoiceStudio server (no key).
+        let cloneOpen = ling.clones || model.voiceStudioAvailable
+        if !cloneOpen {
             HStack(spacing: 10) {
                 ZStack {
                     Circle().fill(Palette.fill)
@@ -197,7 +199,7 @@ struct VoiceSection: View {
         } else {
         HStack(spacing: 10) {
             if has {
-                playButton("clone", highlighted: selected, enabled: ling.clones) { model.previewVoice("clone", language: language) }
+                playButton("clone", highlighted: selected, enabled: cloneOpen) { model.previewVoice("clone", language: language) }
             } else {
                 ZStack {
                     Circle().fill(Palette.accentPale)
@@ -214,23 +216,39 @@ struct VoiceSection: View {
                         Button("重录") { recording = true }.buttonStyle(.plain).underline()
                         Button("删除") {
                             VoiceReference.remove()
+                            model.deleteVoiceStudioClone()
                             for (k, v) in settings.speakVoices where v == "clone" { settings.speakVoices[k] = nil }
                             cloneVersion += 1
                         }
                         .buttonStyle(.plain).underline()
                     }
                     .font(.system(size: 11)).foregroundStyle(Palette.tertiary).lineLimit(1)
+                    // The recording is saved but its clone never reached VoiceStudio (the app was
+                    // down when it was recorded): send it now instead of recording again.
+                    if model.voiceStudioAvailable && !model.voiceStudioCloneReady {
+                        HStack(spacing: 4) {
+                            Text("VoiceStudio belum jalan").font(.system(size: 11)).foregroundStyle(Palette.error)
+                            Button(L("重新发送")) {
+                                Task {
+                                    _ = await model.voiceStudioCloneID(for: VoiceReference.audioURL,
+                                                                       text: VoiceReference.text ?? "")
+                                    cloneVersion += 1
+                                }
+                            }
+                            .buttonStyle(.plain).underline().font(.system(size: 11))
+                        }
+                    }
                 } else {
                     Text("录 15 秒原声，对方听到你的音色，晚约 3 秒").font(.system(size: 11)).foregroundStyle(Palette.tertiary)
                 }
             }
             Spacer(minLength: 6)
             if has {
-                Button { if ling.clones { model.setVoice("clone", for: language) } } label: { Radio(on: selected) }
-                    .buttonStyle(.plain).disabled(!ling.clones)
+                Button { if cloneOpen { model.setVoice("clone", for: language) } } label: { Radio(on: selected) }
+                    .buttonStyle(.plain).disabled(!cloneOpen)
                     .accessibilityLabel(L("用我自己的声音"))
             } else {
-                SoftButton(L("录制")) { recording = true }.disabled(!ling.clones)
+                SoftButton(L("录制")) { recording = true }.disabled(!cloneOpen)
             }
         }
         .padding(.horizontal, 10).padding(.vertical, 8)
@@ -275,6 +293,8 @@ struct VoiceCloneSheet: View {
     @State private var consent = false
     @State private var player: AVAudioPlayer?
     @State private var clonePlaying = false
+    /// The VoiceStudio profile id created from this recording (so preview and keep share one).
+    @State private var cloneVoiceID: String?
 
     private var ownLocale: String { settings.speakFromLang.locale }
 
@@ -372,7 +392,7 @@ struct VoiceCloneSheet: View {
                 }
             }
             .overlay(RoundedRectangle(cornerRadius: 14).stroke(Palette.line, lineWidth: 1))
-            if !model.ling.clones {
+            if !model.ling.clones && !model.voiceStudioAvailable {
                 Text("需先在“AI 服务”中填入 Ling key，才能使用你自己的声音。").font(.system(size: 12)).foregroundStyle(Palette.error)
             }
             Text("听起来不像或有杂音？换个安静的地方重录一次。录音仅保存在本机，可随时删除。")
@@ -425,6 +445,25 @@ struct VoiceCloneSheet: View {
     }
 
     private func playClone() {
+        // VoiceStudio: the clone is created from this recording, then it speaks the sample.
+        if model.voiceStudioAvailable, !model.ling.clones {
+            clonePlaying = true
+            Task {
+                let id: String?
+                if let existing = cloneVoiceID {
+                    id = existing
+                } else {
+                    id = await model.voiceStudioCloneID(for: recorder.url, text: recorder.transcript)
+                }
+                if let id {
+                    cloneVoiceID = id
+                    await model.speak.speak(VoiceCatalog.sample(for: language), language: language, device: AudioDevices.defaultOutput,
+                                            route: .stream { [weak model] text in model?.voiceStudioSpeech(text: text, voice: id) ?? AsyncThrowingStream { $0.finish(throwing: LingClient.Failure.noKey) } })
+                }
+                clonePlaying = false
+            }
+            return
+        }
         guard model.ling.clones, let data = try? Data(contentsOf: recorder.url) else { return }
         clonePlaying = true
         let ref = (audio: "data:audio/wav;base64," + data.base64EncodedString(), text: recorder.transcript)
@@ -441,7 +480,17 @@ struct VoiceCloneSheet: View {
         do {
             try VoiceReference.save(wav: recorder.url, text: recorder.transcript)
             debugLog("voice clone saved \(Int(recorder.seconds)) s")
-            onDone(true)
+            // VoiceStudio: the clone goes to the local server before the sheet closes, so the
+            // picker can speak with it right away. A failure here only loses the upload: the
+            // recording is saved, and the picker offers to send it again.
+            if model.voiceStudioAvailable, !model.ling.clones {
+                Task {
+                    if cloneVoiceID == nil { _ = await model.voiceStudioCloneID(for: recorder.url, text: recorder.transcript) }
+                    onDone(true)
+                }
+            } else {
+                onDone(true)
+            }
         } catch {
             debugLog("voice clone save failed: \(error.localizedDescription)")
         }

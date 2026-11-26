@@ -784,6 +784,10 @@ final class LingClient: ObservableObject {
                 var req = URLRequest(url: base.appendingPathComponent("audio/speech"))
                 req.httpMethod = "POST"
                 req.timeoutInterval = 20
+                // VoiceStudio renders locally: the first call after a restart loads the engine
+                // (~3 min), a clone ~22 s, a built-in voice ~12 s. A 20 s timeout would cut the
+                // first sentence short.
+                if c.isVoiceStudio { req.timeoutInterval = 240 }
                 if !key.isEmpty { req.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization") }
                 req.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 var body: [String: Any] = ["model": voiceModel, "input": text, "response_format": "pcm"]

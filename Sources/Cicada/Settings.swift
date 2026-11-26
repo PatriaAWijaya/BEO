@@ -138,6 +138,11 @@ final class AppSettings: ObservableObject {
     @Published var aiCustomVoice: String {
         didSet { save() }
     }
+    /// The VoiceStudio profile id of the user's own voice ("" = none yet). VoiceStudio is the local
+    /// voice app; the id is only an identifier, never audio.
+    @Published var voiceStudioCloneVoice: String {
+        didSet { save() }
+    }
     /// The custom service's speech recognition model (`/audio/transcriptions`, e.g. Qwen3-ASR) and
     /// its address (empty: the same one), and whether the meeting is recognized there instead of on
     /// this Mac (off by default: the audio then leaves the Mac).
@@ -312,12 +317,13 @@ final class AppSettings: ObservableObject {
         talkKey = Shortcut(stored: defaults.string(forKey: "talkKey")) ?? .defaultTalk
         toggleKey = Shortcut(stored: defaults.string(forKey: "toggleKey")) ?? .defaultToggle
         aiModel = defaults.string(forKey: "aiModel") ?? "Ling-3.1-flash"
-        aiVoiceModels = defaults.dictionary(forKey: "aiVoiceModels") as? [String: String] ?? [:]
-        aiCustomVoiceBase = defaults.string(forKey: "aiCustomVoiceBase") ?? ""
-        aiCustomVoice = defaults.string(forKey: "aiCustomVoice") ?? ""
         aiProvider = defaults.string(forKey: "aiProvider") ?? "custom"
         aiModels = defaults.dictionary(forKey: "aiModels") as? [String: String] ?? ["custom": "deepseek-r1:1.5b"]
+        aiVoiceModels = defaults.dictionary(forKey: "aiVoiceModels") as? [String: String] ?? ["custom": "tts-1"]
         aiCustomBase = defaults.string(forKey: "aiCustomBase") ?? "http://localhost:11434/v1"
+        aiCustomVoiceBase = defaults.string(forKey: "aiCustomVoiceBase") ?? "http://127.0.0.1:3900/v1"
+        aiCustomVoice = defaults.string(forKey: "aiCustomVoice") ?? "alloy"
+        voiceStudioCloneVoice = defaults.string(forKey: "voiceStudioCloneVoice") ?? ""
         aiCustomHearModel = defaults.string(forKey: "aiCustomHearModel") ?? ""
         aiCustomHearBase = defaults.string(forKey: "aiCustomHearBase") ?? ""
         aiCustomRecognize = defaults.bool(forKey: "aiCustomRecognize")
@@ -383,6 +389,7 @@ final class AppSettings: ObservableObject {
         defaults.set(aiCustomBase, forKey: "aiCustomBase")
         defaults.set(aiCustomVoiceBase, forKey: "aiCustomVoiceBase")
         defaults.set(aiCustomVoice, forKey: "aiCustomVoice")
+        defaults.set(voiceStudioCloneVoice, forKey: "voiceStudioCloneVoice")
         defaults.set(aiCustomHearModel, forKey: "aiCustomHearModel")
         defaults.set(aiCustomHearBase, forKey: "aiCustomHearBase")
         defaults.set(aiCustomRecognize, forKey: "aiCustomRecognize")

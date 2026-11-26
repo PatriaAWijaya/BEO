@@ -159,6 +159,11 @@ struct AIConfig: Equatable {
     var notesBadAddress = false
 
     var hasVoices: Bool { voiceModel != nil && voiceBase != nil }
+    /// The voice server is the local VoiceStudio app (its OpenAI-compatible API on 127.0.0.1:3900).
+    var isVoiceStudio: Bool {
+        guard let b = voiceBase, b.port == 3900 else { return false }
+        return b.host == "127.0.0.1" || b.host == "localhost"
+    }
     /// The meeting is recognized by the custom service instead of on this Mac.
     var transcribes: Bool { provider.id == .custom && hearModel != nil && hearBase != nil }
 
