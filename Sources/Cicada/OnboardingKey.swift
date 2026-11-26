@@ -81,9 +81,21 @@ struct OnboardingKeyStep: View {
 
     // MARK: Another service
 
+    @ViewBuilder
     private var otherEntry: some View {
         let p = settings.provider
-        return VStack(alignment: .leading, spacing: 14) {
+        if p.id == .custom, let base = settings.aiConfig.base, AIProvider.isNearby(base.absoluteString) {
+            // A local service needs no key: show its address and the check, not a key field.
+            VStack(alignment: .leading, spacing: 14) {
+                Text(p.name).font(.system(size: 15, weight: .semibold)).foregroundStyle(Palette.ink)
+                Text(base.absoluteString).font(.system(size: 12, design: .monospaced)).foregroundStyle(Palette.secondary)
+                status
+            }
+            .padding(22)
+            .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Palette.line, lineWidth: 1))
+        } else {
+            VStack(alignment: .leading, spacing: 14) {
             HStack {
                 Segments(options: Self.others.map { ($0.id.rawValue, $0.name) }, value: p.id.rawValue) { id in
                     switchTo(AIProvider.named(id))
@@ -113,10 +125,11 @@ struct OnboardingKeyStep: View {
             .font(.system(size: 12))
             .padding(.horizontal, 10).padding(.vertical, 8).frame(maxWidth: .infinity, alignment: .leading)
             .background(RoundedRectangle(cornerRadius: 8).fill(Palette.raised))
+            }
+            .padding(22)
+            .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Palette.line, lineWidth: 1))
         }
-        .padding(22)
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Palette.line, lineWidth: 1))
     }
 
     // MARK: Not connected yet

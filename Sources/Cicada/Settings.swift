@@ -113,7 +113,8 @@ final class AppSettings: ObservableObject {
     @Published var aiModel: String {
         didSet { save() }
     }
-    /// The AI service: an `AIProvider.Kind` ("ling" unless the user picked another).
+    /// The AI service: an `AIProvider.Kind` ("custom" unless the user picked another).
+    /// Fresh installs default to the local Ollama server: no key, no account.
     @Published var aiProvider: String {
         didSet { save() }
     }
@@ -311,12 +312,12 @@ final class AppSettings: ObservableObject {
         talkKey = Shortcut(stored: defaults.string(forKey: "talkKey")) ?? .defaultTalk
         toggleKey = Shortcut(stored: defaults.string(forKey: "toggleKey")) ?? .defaultToggle
         aiModel = defaults.string(forKey: "aiModel") ?? "Ling-3.1-flash"
-        aiProvider = defaults.string(forKey: "aiProvider") ?? "ling"
-        aiModels = defaults.dictionary(forKey: "aiModels") as? [String: String] ?? [:]
         aiVoiceModels = defaults.dictionary(forKey: "aiVoiceModels") as? [String: String] ?? [:]
-        aiCustomBase = defaults.string(forKey: "aiCustomBase") ?? ""
         aiCustomVoiceBase = defaults.string(forKey: "aiCustomVoiceBase") ?? ""
         aiCustomVoice = defaults.string(forKey: "aiCustomVoice") ?? ""
+        aiProvider = defaults.string(forKey: "aiProvider") ?? "custom"
+        aiModels = defaults.dictionary(forKey: "aiModels") as? [String: String] ?? ["custom": "deepseek-r1:1.5b"]
+        aiCustomBase = defaults.string(forKey: "aiCustomBase") ?? "http://localhost:11434/v1"
         aiCustomHearModel = defaults.string(forKey: "aiCustomHearModel") ?? ""
         aiCustomHearBase = defaults.string(forKey: "aiCustomHearBase") ?? ""
         aiCustomRecognize = defaults.bool(forKey: "aiCustomRecognize")

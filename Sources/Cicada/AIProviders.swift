@@ -81,9 +81,9 @@ struct AIProvider: Identifiable, Equatable {
         id: .custom, name: L("自定义服务"), base: nil, site: nil,
         textModels: [], voiceModels: [], voices: [], clones: false, hearsAudio: false, spacing: 0.1)
 
-    static let all: [AIProvider] = [.ling, .openrouter, .zenmux, .openai, .custom]
+    static let all: [AIProvider] = [.custom, .openrouter, .zenmux, .openai, .ling]
 
-    static func named(_ raw: String) -> AIProvider { all.first { $0.id.rawValue == raw } ?? .ling }
+    static func named(_ raw: String) -> AIProvider { all.first { $0.id.rawValue == raw } ?? .custom }
 
     /// http only on this Mac or the local network (Ollama, LM Studio, a GPU box at home or work, a
     /// Tailscale address); anything else must be https.

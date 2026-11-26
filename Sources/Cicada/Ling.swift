@@ -188,8 +188,10 @@ final class LingClient: ObservableObject {
     /// Debug control only: a server that can't be reached is held back by the local network permission.
     var simulateLocalNetwork = false
     /// The service in use, its address and models. Set by the app from settings.
-    var config: () -> AIConfig = { AIConfig(provider: .ling, base: AIProvider.ling.base, textModel: "Ling-3.1-flash",
-                                            voiceModel: "Ming-3.0-tts-0.5B", voiceBase: AIProvider.ling.base) }
+    /// Default before settings load: the local Ollama server, no key.
+    var config: () -> AIConfig = { AIConfig(provider: .custom, base: URL(string: "http://localhost:11434/v1/"),
+                                            textModel: "deepseek-r1:1.5b",
+                                            voiceModel: nil, voiceBase: nil) }
     var provider: AIProvider { config().provider }
 
     /// Debug control only: make every chat call fail this way.

@@ -837,7 +837,7 @@ struct AIServiceMenu: View {
 
     var body: some View {
         PillMenu(value: Self.title(settings.provider),
-                 options: AIProvider.all.map { ($0.id.rawValue, $0.id == .ling ? "Ling" + L("（推荐）") : Self.title($0)) }) {
+                 options: AIProvider.all.map { ($0.id.rawValue, $0.id == .custom ? Self.title($0) + L("（推荐）") : ($0.id == .ling ? "Ling" : Self.title($0))) }) {
             guard $0 != settings.aiProvider else { return }
             settings.aiProvider = $0
             model.applyAIService()

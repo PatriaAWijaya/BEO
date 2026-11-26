@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Cicada
+@testable import BEO
 
 /// Answers Ling requests from the test, and keeps what was asked. Requests reach a URLProtocol
 /// with the body as a stream, not `httpBody`.
@@ -60,6 +60,10 @@ final class LingStub: URLProtocol, @unchecked Sendable {
     private func client() -> LingClient {
         AIKey.save("sk-test-0000000000")
         let ling = LingClient()
+        // These tests exercise Ling: pin the client to it. The app default is the local
+        // custom service now, so the default config no longer implies Ling.
+        ling.config = { AIConfig(provider: .ling, base: AIProvider.ling.base, textModel: "Ling-3.1-flash",
+                                 voiceModel: "Ming-3.0-tts-0.5B", voiceBase: AIProvider.ling.base) }
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [LingStub.self]
         ling.session = URLSession(configuration: config)

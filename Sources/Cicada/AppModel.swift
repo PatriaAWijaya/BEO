@@ -315,7 +315,7 @@ final class AppModel: ObservableObject {
         translator.onHealth = { [weak self] in self?.translationHealth = $0 }
         translator.proxyHint = { await ProxyProbe.hint() }
 
-        ling.config = { [weak self] in self?.settings.aiConfig ?? AIConfig(provider: .ling, base: AIProvider.ling.base, textModel: "Ling-3.1-flash") }
+        ling.config = { [weak self] in self?.settings.aiConfig ?? AIConfig(provider: .custom, base: URL(string: "http://localhost:11434/v1/"), textModel: "deepseek-r1:1.5b") }
         listen.translator = translator
         roomListen.translator = translator
         roomListen.voiceMic = voiceMic
